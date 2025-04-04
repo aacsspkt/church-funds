@@ -102,7 +102,7 @@ export default function ChurchMemberNewPage() {
 					</BreadcrumbItem>
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>
-						<BreadcrumbLink href="/church-members">Church Member</BreadcrumbLink>
+						<BreadcrumbLink href="/church-members">Church Members</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>

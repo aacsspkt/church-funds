@@ -141,11 +141,11 @@ export default function ChurchMemberEditPage() {
 			<Breadcrumb className="p-4">
 				<BreadcrumbList>
 					<BreadcrumbItem>
-						<BreadcrumbLink href="/">Hom e</BreadcrumbLink>
+						<BreadcrumbLink href="/">Home</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>
-						<BreadcrumbLink href="/church-members">Church Member</BreadcrumbLink>
+						<BreadcrumbLink href="/church-members">Church Members</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>
