@@ -23,7 +23,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import db from "@/lib/database";
-import { Checkbox } from "@radix-ui/react-checkbox";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -141,31 +140,31 @@ export default function FundListPage() {
 	};
 
 	const columns: ColumnDef<Fund>[] = [
-		{
-			id: "select",
-			header: ({ table }) => (
-				<Checkbox
-					checked={
-						table.getIsAllPageRowsSelected() ||
-						(table.getIsSomePageRowsSelected() && "indeterminate")
-					}
-					onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-					aria-label="Select all"
-				/>
-			),
-			cell: ({ row }) => (
-				<Checkbox
-					checked={row.getIsSelected()}
-					onCheckedChange={(value) => row.toggleSelected(!!value)}
-					aria-label="Select row"
-				/>
-			),
-			enableSorting: false,
-			enableHiding: false,
-		},
+		// {
+		// 	id: "select",
+		// 	header: ({ table }) => (
+		// 		<Checkbox
+		// 			checked={
+		// 				table.getIsAllPageRowsSelected() ||
+		// 				(table.getIsSomePageRowsSelected() && "indeterminate")
+		// 			}
+		// 			onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+		// 			aria-label="Select all"
+		// 		/>
+		// 	),
+		// 	cell: ({ row }) => (
+		// 		<Checkbox
+		// 			checked={row.getIsSelected()}
+		// 			onCheckedChange={(value) => row.toggleSelected(!!value)}
+		// 			aria-label="Select row"
+		// 		/>
+		// 	),
+		// 	enableSorting: false,
+		// 	enableHiding: false,
+		// },
 		{
 			accessorKey: "id",
-			header: "#",
+			header: "Id",
 		},
 		{
 			// accessorKey: "member_id",
@@ -176,7 +175,7 @@ export default function FundListPage() {
 					const member = members?.find(
 						(member) => Number(member.id) === Number(fund.member_id),
 					);
-					return <div>{member.name satisfies string}</div>;
+					return <div>{member && (member.name satisfies string)}</div>;
 				} else {
 					return <div>-</div>;
 				}
@@ -191,7 +190,7 @@ export default function FundListPage() {
 					const fundType = fundTypes?.find(
 						(ft) => Number(ft.id) === Number(fund.fund_type_id),
 					);
-					return <div>{fundType.name satisfies string}</div>;
+					return <div>{fundType && (fundType.name satisfies string)}</div>;
 				} else {
 					return <div>-</div>;
 				}
