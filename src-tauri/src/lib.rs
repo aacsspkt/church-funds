@@ -60,7 +60,6 @@ pub fn run() {
                 id INTEGER PRIMARY KEY, 
                 member_id INTEGER,
                 amount REAL,
-                endow_date TEXT,
                 fund_type_id INTEGER,
                 created_at INTEGER,
                 modified_at INTEGER
@@ -69,7 +68,14 @@ pub fn run() {
         kind: MigrationKind::Up,
     };
 
-    let migrations = vec![migration, migration1];
+    let migration2 = Migration {
+        version: 2,
+        description: "add_endow_date_to_fund",
+        sql: "ALTER TABLE fund ADD COLUMN endow_date TEXT;",
+        kind: MigrationKind::Up,
+    };
+
+    let migrations = vec![migration, migration1, migration2];
 
     tauri::Builder::default()
         .plugin(
