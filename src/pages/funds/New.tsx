@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
 	SelectContent,
@@ -146,12 +148,12 @@ export default function FundNewPage() {
 						children={(field) => (
 							<>
 								<div className="flex items-baseline flex-row space-x-4">
-									<label
+									<Label
 										className="w-36"
 										htmlFor={field.name}
 									>
 										Member:
-									</label>
+									</Label>
 									<Select onValueChange={field.handleChange}>
 										<SelectTrigger className="min-w-xl p-2 border border-gray-400 rounded">
 											<SelectValue placeholder="Select a member" />
@@ -194,12 +196,12 @@ export default function FundNewPage() {
 						children={(field) => (
 							/* Avoid hasty abstractions. Render props are great!*/ <>
 								<div className="flex items-baseline flex-row space-x-4">
-									<label
+									<Label
 										className="w-36"
 										htmlFor={field.name}
 									>
 										Fund Type:
-									</label>
+									</Label>
 									<Select onValueChange={field.handleChange}>
 										<SelectTrigger className="min-w-xl p-2 border border-gray-400 rounded">
 											<SelectValue placeholder="Select a fund type" />
@@ -244,14 +246,14 @@ export default function FundNewPage() {
 						children={(field) => (
 							<>
 								<div className="flex items-baseline flex-row space-x-4">
-									<label
+									<Label
 										className="w-36"
 										htmlFor={field.name}
 									>
 										Amount:
-									</label>
-									<input
-										className="min-w-xl p-2 border border-gray-400 rounded"
+									</Label>
+									<Input
+										className="w-xl p-2 border border-gray-400 rounded"
 										id={field.name}
 										name={field.name}
 										type="number"
@@ -275,12 +277,12 @@ export default function FundNewPage() {
 						children={(field) => (
 							<>
 								<div className="flex items-baseline flex-row space-x-4">
-									<label
+									<Label
 										className="w-36"
 										htmlFor={field.name}
 									>
 										Endow Date:
-									</label>
+									</Label>
 									<Popover>
 										<PopoverTrigger
 											className={cn(

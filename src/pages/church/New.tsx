@@ -9,6 +9,8 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useForm } from "@tanstack/react-form";
 
 import { FieldInfo } from "../../components/FieldInfo";
@@ -99,14 +101,14 @@ export default function ChurchNewPage() {
 							return (
 								<>
 									<div className="flex items-baseline flex-row space-x-4">
-										<label
+										<Label
 											className="w-36"
 											htmlFor={field.name}
 										>
 											Name:
-										</label>
-										<input
-											className="min-w-xl p-2 border border-gray-400 rounded"
+										</Label>
+										<Input
+											className="w-xl p-2 border border-gray-400 rounded"
 											id={field.name}
 											name={field.name}
 											value={field.state.value}
@@ -130,14 +132,14 @@ export default function ChurchNewPage() {
 							return (
 								<>
 									<div className="flex items-baseline flex-row space-x-4">
-										<label
+										<Label
 											className="w-36"
 											htmlFor={field.name}
 										>
 											Email:
-										</label>
-										<input
-											className="min-w-xl p-2 border border-gray-400 rounded"
+										</Label>
+										<Input
+											className="w-xl p-2 border border-gray-400 rounded"
 											id={field.name}
 											name={field.name}
 											value={field.state.value}
@@ -172,14 +174,14 @@ export default function ChurchNewPage() {
 							return (
 								<>
 									<div className="flex items-baseline flex-row space-x-4">
-										<label
+										<Label
 											className="w-36"
 											htmlFor={field.name}
 										>
 											Address:
-										</label>
-										<input
-											className="min-w-xl p-2 border border-gray-400 rounded"
+										</Label>
+										<Input
+											className="w-xl p-2 border border-gray-400 rounded"
 											id={field.name}
 											name={field.name}
 											value={field.state.value}
@@ -214,14 +216,14 @@ export default function ChurchNewPage() {
 							return (
 								<>
 									<div className="flex items-baseline flex-row space-x-4">
-										<label
+										<Label
 											className="w-36"
 											htmlFor={field.name}
 										>
 											{"Phone (Primary):"}
-										</label>
-										<input
-											className="min-w-xl p-2 border border-gray-400 rounded"
+										</Label>
+										<Input
+											className="w-xl p-2 border border-gray-400 rounded"
 											id={field.name}
 											name={field.name}
 											value={field.state.value}
@@ -254,14 +256,14 @@ export default function ChurchNewPage() {
 							return (
 								<>
 									<div className="flex items-baseline flex-row space-x-4">
-										<label
+										<Label
 											className="w-36"
 											htmlFor={field.name}
 										>
 											{"Phone (Secondary):"}
-										</label>
-										<input
-											className="min-w-xl p-2 border border-gray-400 rounded"
+										</Label>
+										<Input
+											className="w-xl p-2 border border-gray-400 rounded"
 											id={field.name}
 											name={field.name}
 											value={field.state.value}

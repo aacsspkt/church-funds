@@ -12,6 +12,8 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import db from "@/lib/database";
 import { useForm } from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
@@ -88,7 +90,7 @@ export default function FundTypeEditPage() {
 	};
 
 	return (
-		<div className="w-full min-w-fit">
+		<div className="w-full w-fit">
 			<Breadcrumb className="p-4">
 				<BreadcrumbList>
 					<BreadcrumbItem>
@@ -137,14 +139,14 @@ export default function FundTypeEditPage() {
 							return (
 								<>
 									<div className="flex items-baseline flex-row space-x-4">
-										<label
+										<Label
 											className="w-36"
 											htmlFor={field.name}
 										>
 											Name:
-										</label>
-										<input
-											className="min-w-xl p-2 border border-gray-400 rounded"
+										</Label>
+										<Input
+											className="w-xl p-2 border border-gray-400 rounded"
 											id={field.name}
 											name={field.name}
 											value={field.state.value}
@@ -177,14 +179,14 @@ export default function FundTypeEditPage() {
 							return (
 								<>
 									<div className="flex items-baseline flex-row space-x-4">
-										<label
+										<Label
 											className="w-36"
 											htmlFor={field.name}
 										>
 											Description:
-										</label>
-										<input
-											className="min-w-xl p-2 border border-gray-400 rounded"
+										</Label>
+										<Input
+											className="w-xl p-2 border border-gray-400 rounded"
 											id={field.name}
 											name={field.name}
 											value={field.state.value}
