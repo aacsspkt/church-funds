@@ -31,6 +31,7 @@ type Fund = {
 	id: number;
 	member_id: number;
 	amount: number;
+	endow_date: string;
 	fund_type_id: number;
 	created_at: number;
 	modified_at: number;
@@ -67,6 +68,8 @@ export default function FundListPage() {
 		queryKey: ["funds"],
 		queryFn: async () => {
 			const result = await db.select("SELECT * FROM fund ORDER BY created_at DESC");
+
+			console.log("result:", result);
 
 			if (!result) {
 				return [];
@@ -168,7 +171,6 @@ export default function FundListPage() {
 			// accessorKey: "member_id",
 			header: "Member",
 			cell: ({ row }) => {
-				console.log("row:", row);
 				const fund = row.original;
 				if (members) {
 					const member = members?.find(
@@ -184,7 +186,6 @@ export default function FundListPage() {
 			// accessorKey: "fund_type_id",
 			header: "Fund Type",
 			cell: ({ row }) => {
-				console.log("row:", row);
 				const fund = row.original;
 				if (fundTypes) {
 					const fundType = fundTypes?.find(
@@ -200,6 +201,16 @@ export default function FundListPage() {
 			accessorKey: "amount",
 			header: "Amount",
 		},
+		{
+			accessorKey: "endow_date",
+			header: "Endow Date",
+			cell: ({ row }) => {
+				const fund = row.original;
+				const endow_date = fund.endow_date ? new Date(fund.endow_date) : new Date();
+				return <div className="">{endow_date.toLocaleDateString()}</div>;
+			},
+		},
+
 		{
 			accessorKey: "created_at",
 			header: "Created At",

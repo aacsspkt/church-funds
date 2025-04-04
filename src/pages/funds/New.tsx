@@ -1,3 +1,4 @@
+import { CalendarIcon } from "lucide-react";
 import { useNavigate } from "react-router";
 
 import { FieldInfo } from "@/components/FieldInfo";
@@ -10,6 +11,8 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
 	SelectContent,
 	SelectGroup,
@@ -19,6 +22,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import db from "@/lib/database";
+import { cn } from "@/lib/utils";
 import { Select } from "@radix-ui/react-select";
 import { useForm } from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
@@ -75,6 +79,7 @@ export default function FundNewPage() {
 			memberId: "",
 			amount: 0,
 			fundTypeId: "",
+			endowDate: new Date().toLocaleDateString(),
 		},
 		onSubmit: async ({ value }) => {
 			console.log("value:", value);
@@ -82,8 +87,15 @@ export default function FundNewPage() {
 			const createdAt = Math.floor(Date.now() / 1000);
 			const modifiedAt = createdAt;
 			const result = await db.execute(
-				"INSERT into fund (member_id, fund_type_id, amount, created_at, modified_at) VALUES ($1, $2, $3, $4, $5)",
-				[value.memberId, value.fundTypeId, value.amount, createdAt, modifiedAt],
+				"INSERT into fund (member_id, fund_type_id, amount, endow_date, created_at, modified_at) VALUES ($1, $2, $3, $4, $5, $6)",
+				[
+					value.memberId,
+					value.fundTypeId,
+					value.amount,
+					value.endowDate,
+					createdAt,
+					modifiedAt,
+				],
 			);
 
 			console.log("result", result);
@@ -248,6 +260,61 @@ export default function FundNewPage() {
 										step={0.01}
 										onChange={(e) => field.handleChange(e.target.valueAsNumber)}
 									/>
+								</div>
+								<FieldInfo field={field} />
+							</>
+						)}
+					/>
+
+					<form.Field
+						name="endowDate"
+						validators={{
+							onChange: ({ value }) =>
+								!value ? "Endow date is required" : undefined,
+						}}
+						children={(field) => (
+							<>
+								<div className="flex items-baseline flex-row space-x-4">
+									<label
+										className="w-36"
+										htmlFor={field.name}
+									>
+										Endow Date:
+									</label>
+									<Popover>
+										<PopoverTrigger
+											className={cn(
+												"min-w-xl flex flex-row space-x-2 items-center p-2 border border-gray-300 rounded text-left font-normal focus:outline-gray-400",
+												!field.state.value && "text-muted-foreground",
+											)}
+										>
+											<CalendarIcon className="w-4 h-4" />
+											<span className="text-sm">
+												{field.state.value
+													? field.state.value
+													: "Pick a date"}
+											</span>
+											{/* </Button> */}
+										</PopoverTrigger>
+										<PopoverContent
+											className="w-auto p-0"
+											align="start"
+										>
+											<Calendar
+												mode="single"
+												selected={
+													field.state.value
+														? new Date(field.state.value)
+														: undefined
+												}
+												onSelect={(date) =>
+													date &&
+													field.handleChange(date.toLocaleDateString())
+												}
+												initialFocus
+											/>
+										</PopoverContent>
+									</Popover>
 								</div>
 								<FieldInfo field={field} />
 							</>
