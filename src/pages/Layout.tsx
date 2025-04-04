@@ -1,7 +1,5 @@
-import { useState } from "react";
-
 import { Banknote, Church, Coins, LayoutDashboard, SquareUser } from "lucide-react";
-import { Outlet, useLocation } from "react-router";
+import { Outlet } from "react-router";
 
 import {
 	Sidebar,
@@ -17,25 +15,7 @@ import {
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-// const HOME = "HOME";
-// const CHURCH = "CHURCH";
-// const CHURCH_MEMBER = "CHURCH_MEMBER";
-// const DASHANSA = "DASHANSA";
-
-// const HOME_DASHBOARD = "/";
-// const CHURCH_LIST = "/churches";
-// const CHURCH_NEW = "/churches/new";
-// const CHURCH_MEMBER_LIST = "/church-members";
-// const CHURCH_MEMBER_NEW = "/church-members/new";
-// const DASHANSA_LIST = "/dashansa-records";
-// const DASHANSA_NEW = "/dashansa-records/new";
-
 const Layout = () => {
-	const [name, setName] = useState("");
-
-	const { pathname } = useLocation();
-	console.log("pathName:", pathname);
-
 	const items = [
 		{
 			name: "Dashboard",
@@ -95,13 +75,6 @@ const Layout = () => {
 				<section className="flex flex-col items-start justify-start border-sm border-red">
 					<div className="w-full p-2 border-b border-gray-400 flex flex-row space-x-4">
 						<SidebarTrigger className="p-2 w-9 h-9 border border-gray-300" />
-						<input
-							className="h-8 px-2  w-1/2 border border-gray-400 rounded"
-							type="text"
-							placeholder="Search Commands"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-						/>
 					</div>
 					<Outlet />
 				</section>
