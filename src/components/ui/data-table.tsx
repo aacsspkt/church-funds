@@ -71,52 +71,52 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 					)}
 				</TableBody>
 			</Table>
-			<div className="flex flex-row items-center justify-end space-x-2 py-4 px-2">
-				<p className="flex-1 text-sm text-muted-foreground">
+			<div className="flex flex-row items-center justify-start space-x-2 py-4 px-2">
+				{/* <p className="flex-1 text-sm text-muted-foreground">
 					{table.getSelectedRowModel().rows.length} of {table.getRowModel().rows?.length}{" "}
 					row(s){" "}
+				</p> */}
+				{/* <div className="flex flex-row space-x-2 items-center justify-center"> */}
+				<Button
+					variant={"ghost"}
+					type="button"
+					size={"icon"}
+					className="w-9 h-7 p-1.5 border border-gray-300"
+					onClick={() => table.firstPage()}
+				>
+					<ChevronFirst className="w-4 h-4" />
+				</Button>
+				<Button
+					variant={"ghost"}
+					type="button"
+					size={"icon"}
+					className="w-9 h-7 p-1.5 border border-gray-300"
+					onClick={() => table.previousPage()}
+				>
+					<ChevronLeft className="w-4 h-4" />
+				</Button>
+				<Button
+					variant={"ghost"}
+					type="button"
+					size={"icon"}
+					className="w-9 h-7 p-1.5 border border-gray-300"
+					onClick={() => table.nextPage()}
+				>
+					<ChevronRight className="w-4 h-4" />
+				</Button>
+				<Button
+					variant={"ghost"}
+					type="button"
+					size={"icon"}
+					className="w-9 h-7 p-1.5 border border-gray-300"
+					onClick={() => table.lastPage()}
+				>
+					<ChevronLast className="w-4 h-4" />
+				</Button>
+				<p className="text-sm text-muted-foreground">
+					Total pages: {table.getPageCount()}{" "}
 				</p>
-				<div className="flex flex-row space-x-2 items-center justify-center">
-					<p className="text-sm text-muted-foreground">
-						Total pages: {table.getPageCount()}{" "}
-					</p>
-					<Button
-						variant={"ghost"}
-						type="button"
-						size={"icon"}
-						className="w-9 h-7 p-1.5 border border-gray-300"
-						onClick={() => table.firstPage()}
-					>
-						<ChevronFirst className="w-4 h-4" />
-					</Button>
-					<Button
-						variant={"ghost"}
-						type="button"
-						size={"icon"}
-						className="w-9 h-7 p-1.5 border border-gray-300"
-						onClick={() => table.previousPage()}
-					>
-						<ChevronLeft className="w-4 h-4" />
-					</Button>
-					<Button
-						variant={"ghost"}
-						type="button"
-						size={"icon"}
-						className="w-9 h-7 p-1.5 border border-gray-300"
-						onClick={() => table.nextPage()}
-					>
-						<ChevronRight className="w-4 h-4" />
-					</Button>
-					<Button
-						variant={"ghost"}
-						type="button"
-						size={"icon"}
-						className="w-9 h-7 p-1.5 border border-gray-300"
-						onClick={() => table.lastPage()}
-					>
-						<ChevronLast className="w-4 h-4" />
-					</Button>
-				</div>
+				{/* </div> */}
 			</div>
 		</div>
 	);
