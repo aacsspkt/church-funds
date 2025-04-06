@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 import { FieldInfo } from "@/components/FieldInfo";
 import {
@@ -34,6 +35,12 @@ export default function FundTypeNewPage() {
 			);
 
 			console.log("result", result);
+
+			if (result.rowsAffected) {
+				toast.success("Fund Type created successfully!");
+			} else {
+				toast.error("Error creating Fund Type!");
+			}
 
 			navigate("/fund-types");
 		},

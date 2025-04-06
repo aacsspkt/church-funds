@@ -1,5 +1,6 @@
 import { SquarePen, Trash } from "lucide-react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 import {
 	AlertDialog,
@@ -112,8 +113,27 @@ export default function ChurchMemberListPage() {
 	}
 
 	const deleteChurchMember = async (id: number) => {
+		const countResult = await db.select<{ ["COUNT(id)"]: number }[]>(
+			"SELECT COUNT(id) FROM fund WHERE member_id = $1",
+			[id],
+		);
+
+		const count = countResult[0]["COUNT(id)"];
+		console.log("fund count:", count);
+
+		if (count && count > 0) {
+			toast.error(<div>Cannot delete member with funds!</div>);
+			return;
+		}
+
 		const result = await db.execute("DELETE FROM member WHERE id = $1", [id]);
 		console.log("delete result:", result);
+
+		if (result.rowsAffected) {
+			toast.success(<div>Church member deleted successfully!</div>);
+		} else {
+			toast.error(<div>Error deleting church member!</div>);
+		}
 
 		refetchMembers();
 		refetchMemberCount();

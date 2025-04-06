@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import { useNavigate, useParams } from "react-router";
+import { toast } from "sonner";
 
 import { FieldInfo } from "@/components/FieldInfo";
 import {
@@ -69,6 +70,12 @@ export default function FundTypeEditPage() {
 
 			console.log("result", result);
 
+			if (result.rowsAffected) {
+				toast.success(<div>Fund type updated successfully!</div>);
+			} else {
+				toast.error(<div>Error updating fund type!</div>);
+			}
+
 			navigate("/fund-types");
 		},
 	});
@@ -83,8 +90,26 @@ export default function FundTypeEditPage() {
 	}, [fundTypes, form]);
 
 	const deleteFundType = async (id: number) => {
+		const countResult = await db.select<{ ["COUNT(id)"]: number }[]>(
+			"SELECT COUNT(id) FROM fund WHERE fund_type_id = $1",
+			[id],
+		);
+
+		const count = countResult[0]["COUNT(id)"];
+
+		if (count && count > 0) {
+			toast.error(<div>Cannot deleting fund type having funds</div>);
+			return;
+		}
+
 		const result = await db.execute("DELETE FROM fund_type WHERE id = $1", [id]);
 		console.log("delete result:", result);
+
+		if (result.rowsAffected) {
+			toast.success(<div>Fund type deleted successfully!</div>);
+		} else {
+			toast.error(<div>Error deleting fund type!</div>);
+		}
 
 		navigate("/fund-types");
 	};

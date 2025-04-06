@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import { useNavigate, useParams } from "react-router";
+import { toast } from "sonner";
 
 import {
 	Breadcrumb,
@@ -111,6 +112,12 @@ export default function ChurchMemberEditPage() {
 
 			console.log("update result:", result);
 
+			if (result.rowsAffected) {
+				toast.success("Church member updated successfully!");
+			} else {
+				toast.error("Error updating church member!");
+			}
+
 			navigate("/church-members");
 		},
 	});
@@ -132,8 +139,27 @@ export default function ChurchMemberEditPage() {
 	}, [members, form]);
 
 	const deleteChurchMember = async (id: number) => {
+		const countResult = await db.select<{ ["COUNT(id)"]: number }[]>(
+			"SELECT COUNT(id) FROM fund WHERE member_id = $1",
+			[id],
+		);
+
+		const count = countResult[0]["COUNT(id)"];
+		console.log("fund count:", count);
+
+		if (count && count > 0) {
+			toast.error(<div>Cannot delete member with funds!</div>);
+			return;
+		}
+
 		const result = await db.execute("DELETE FROM member WHERE id = $1", [id]);
 		console.log("delete result:", result);
+
+		if (result.rowsAffected) {
+			toast.success("Church member deleted successfully!");
+		} else {
+			toast.error("Error deleting church member!");
+		}
 
 		navigate("/church-members");
 	};
@@ -435,6 +461,7 @@ export default function ChurchMemberEditPage() {
 						</div>
 
 						<Button
+							type="button"
 							onClick={async () => await navigate("/church-members")}
 							className="w-36 rounded text-center items-center p-3 mt-4 shadow border border-gray-300 text-primary"
 							variant={"secondary"}

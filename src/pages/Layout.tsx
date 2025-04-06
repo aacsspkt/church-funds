@@ -14,6 +14,7 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 const Layout = () => {
 	const items = [
@@ -79,6 +80,13 @@ const Layout = () => {
 					<Outlet />
 				</section>
 			</main>
+			<Toaster
+				duration={3000}
+				position="top-right"
+				swipeDirections={["left", "right"]}
+				richColors={true}
+				theme="light"
+			/>
 		</SidebarProvider>
 	);
 };

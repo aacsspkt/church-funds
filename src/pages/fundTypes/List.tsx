@@ -1,5 +1,6 @@
 import { SquarePen, Trash } from "lucide-react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 import {
 	AlertDialog,
@@ -85,8 +86,26 @@ export default function FundTypeListPage() {
 	// console.log("fundTypes:", fundTypes);
 
 	const deleteFundType = async (id: number) => {
+		const countResult = await db.select<{ ["COUNT(id)"]: number }[]>(
+			"SELECT COUNT(id) FROM fund WHERE fund_type_id = $1",
+			[id],
+		);
+
+		const count = countResult[0]["COUNT(id)"];
+
+		if (count && count > 0) {
+			toast.error(<div>Cannot deleting fund type having funds</div>);
+			return;
+		}
+
 		const result = await db.execute("DELETE FROM fund_type WHERE id = $1", [id]);
 		console.log("delete result:", result);
+
+		if (result.rowsAffected) {
+			toast.success(<div>Fund type deleted successfully!</div>);
+		} else {
+			toast.error(<div>Error deleting fund type!</div>);
+		}
 
 		refetchFundTypes();
 		refetchFundTypeCount();

@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router";
+import { toast } from "sonner";
 
 import {
 	Breadcrumb,
@@ -90,6 +91,12 @@ export default function ChurchMemberNewPage() {
 			);
 
 			console.log("result:", result);
+
+			if (result.rowsAffected) {
+				toast.success("Church member created successfully.");
+			} else {
+				toast.error("Error creating church member.");
+			}
 
 			navigate("/church-members");
 		},

@@ -1,5 +1,6 @@
 import { SquarePen, Trash } from "lucide-react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 import {
 	AlertDialog,
@@ -134,6 +135,12 @@ export default function FundListPage() {
 	const deleteFund = async (id: number) => {
 		const result = await db.execute("DELETE FROM fund WHERE id = $1", [id]);
 		console.log("delete result:", result);
+
+		if (result.rowsAffected) {
+			toast.success(<div>Fund deleted successfully.</div>);
+		} else {
+			toast.error(<div>Some error occured while deleting fund.</div>);
+		}
 
 		refetchFunds();
 		refetchFundCount();

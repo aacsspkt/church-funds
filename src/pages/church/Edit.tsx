@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import { useNavigate, useParams } from "react-router";
+import { toast } from "sonner";
 
 import {
 	Breadcrumb,
@@ -31,8 +32,25 @@ export default function ChurchEditPage() {
 	}
 
 	async function deleteChurch(id: number) {
+		const countResult = await db.select<{ ["COUNT(id)"]: number }[]>(
+			"SELECT COUNT(id) FROM member WHERE church_id = $1",
+			[id],
+		);
+		const count = countResult[0]["COUNT(id)"];
+
+		if (count > 0) {
+			toast.error(<div>Cannot delete church with members!</div>);
+			return;
+		}
+
 		const result = await db.execute("DELETE FROM CHURCH WHERE id = $1", [id]);
 		console.log("deleted result", result);
+
+		if (result.rowsAffected) {
+			toast.success(<div>Church deleted successfully</div>);
+		} else {
+			toast.error(<div>Error deleting church</div>);
+		}
 
 		navigate("/churches");
 	}
@@ -71,6 +89,7 @@ export default function ChurchEditPage() {
 		onSubmit: async ({ value }) => {
 			// Do something with form data
 			if (!id) {
+				toast(<div className="font-medium text-destructive">Error: No ID provided</div>);
 				return;
 			}
 
@@ -91,6 +110,12 @@ export default function ChurchEditPage() {
 			);
 
 			console.log("result", result);
+
+			if (result.rowsAffected) {
+				toast.success(<div>Church updated successfully</div>);
+			} else {
+				toast.error(<div>Error updating church</div>);
+			}
 
 			navigate("/churches");
 		},
@@ -345,6 +370,7 @@ export default function ChurchEditPage() {
 					</div>
 
 					<Button
+						type="button"
 						onClick={async () => await navigate("/churches")}
 						className="w-36 rounded text-center items-center p-3 mt-4 shadow border border-gray-300 text-primary"
 						variant={"secondary"}

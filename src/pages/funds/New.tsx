@@ -1,5 +1,6 @@
 import { CalendarIcon } from "lucide-react";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 import { FieldInfo } from "@/components/FieldInfo";
 import {
@@ -101,6 +102,12 @@ export default function FundNewPage() {
 			);
 
 			console.log("result", result);
+
+			if (result.rowsAffected) {
+				toast.success(<div>Fund created successfully!</div>);
+			} else {
+				toast.error(<div>Error creating fund!</div>);
+			}
 
 			navigate("/funds");
 		},

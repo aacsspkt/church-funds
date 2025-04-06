@@ -1,5 +1,6 @@
 import { Church, SquarePen, Trash } from "lucide-react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 import {
 	AlertDialog,
@@ -90,8 +91,31 @@ export default function ChurchListPage() {
 	console.log("query:", data);
 
 	const deleteChurch = async (id: number) => {
+		const countResult = await db.select<{ ["COUNT(id)"]: number }[]>(
+			"SELECT COUNT(id) FROM member WHERE church_id = $1",
+			[id],
+		);
+		const count = countResult[0]["COUNT(id)"];
+
+		if (count > 0) {
+			toast.warning(
+				<div className="font-medium text-yellow-400">
+					Cannot delete church with members
+				</div>,
+			);
+			return;
+		}
+
 		const result = await db.execute("DELETE FROM church WHERE id = $1", [id]);
 		console.log("delete result:", result);
+
+		if (result.rowsAffected) {
+			toast.success(
+				<div className="font-medium text-green-400">Church deleted successfully</div>,
+			);
+		} else {
+			toast.error(<div className="font-medium text-destructive">Error deleting church</div>);
+		}
 
 		refetchChurches();
 		refetchChurchCount();

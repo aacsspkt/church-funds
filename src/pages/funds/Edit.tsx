@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 import { CalendarIcon } from "lucide-react";
 import { useNavigate, useParams } from "react-router";
+import { toast } from "sonner";
 
 import { FieldInfo } from "@/components/FieldInfo";
 import {
@@ -110,6 +111,12 @@ export default function FundEditPage() {
 		const result = await db.execute("DELETE FROM fund WHERE id = $1", [id]);
 		console.log("delete result:", result);
 
+		if (result.rowsAffected) {
+			toast.success(<div>Fund deleted successfully!</div>);
+		} else {
+			toast.error(<div>Error deleting fund!</div>);
+		}
+
 		navigate("/funds");
 	};
 
@@ -135,6 +142,12 @@ export default function FundEditPage() {
 					Number(id!),
 				],
 			);
+
+			if (result.rowsAffected) {
+				toast.success(<div>Fund updated successfully!</div>);
+			} else {
+				toast.error(<div>Error updating fund!</div>);
+			}
 
 			console.log("update result:", result);
 
