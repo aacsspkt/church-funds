@@ -1,4 +1,4 @@
-import { Church, SquarePen, Trash } from "lucide-react";
+import { ArrowUpDown, Church, SquarePen, Trash } from "lucide-react";
 import { Link } from "react-router";
 import { toast } from "sonner";
 
@@ -150,23 +150,73 @@ export default function ChurchListPage() {
 		},
 		{
 			accessorKey: "name",
-			header: "Name",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					>
+						Name
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 		},
 		{
 			accessorKey: "email",
-			header: "Email",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					>
+						Email
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 		},
 		{
 			accessorKey: "phone1",
-			header: "Phone 1",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					>
+						Phone 1
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 		},
 		{
 			accessorKey: "phone2",
-			header: "Phone 2",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					>
+						Phone 2
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 		},
 		{
 			accessorKey: "created_at",
-			header: "Created At",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					>
+						Created At
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 			// accessorFn: (row) => new Date(Number(row.created_at) * 1000),
 			cell: ({ row }) => (
 				<div className="">
@@ -176,7 +226,17 @@ export default function ChurchListPage() {
 		},
 		{
 			accessorKey: "modified_at",
-			header: "Modified At",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+					>
+						Modified At
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 			// accessorFn: (row) => new Date(Number(row.modified_at) * 1000),
 			cell: ({ row }) => (
 				<div className="">
