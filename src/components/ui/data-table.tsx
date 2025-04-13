@@ -1,10 +1,16 @@
+import { useState } from "react";
+
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react";
 
 import {
 	ColumnDef,
+	ColumnFiltersState,
 	flexRender,
 	getCoreRowModel,
+	getFilteredRowModel,
 	getPaginationRowModel,
+	getSortedRowModel,
+	SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
 
@@ -17,11 +23,21 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
+		onSortingChange: setSorting,
+		getSortedRowModel: getSortedRowModel(),
+		onColumnFiltersChange: setColumnFilters,
+		getFilteredRowModel: getFilteredRowModel(),
+		state: {
+			sorting,
+			columnFilters,
+		},
 	});
 
 	return (
@@ -83,6 +99,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 					size={"icon"}
 					className="w-9 h-7 p-1.5 border border-gray-300"
 					onClick={() => table.firstPage()}
+					disabled={!table.getCanPreviousPage()}
 				>
 					<ChevronFirst className="w-4 h-4" />
 				</Button>
@@ -92,6 +109,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 					size={"icon"}
 					className="w-9 h-7 p-1.5 border border-gray-300"
 					onClick={() => table.previousPage()}
+					disabled={!table.getCanPreviousPage()}
 				>
 					<ChevronLeft className="w-4 h-4" />
 				</Button>
@@ -101,6 +119,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 					size={"icon"}
 					className="w-9 h-7 p-1.5 border border-gray-300"
 					onClick={() => table.nextPage()}
+					disabled={!table.getCanNextPage()}
 				>
 					<ChevronRight className="w-4 h-4" />
 				</Button>
@@ -110,6 +129,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 					size={"icon"}
 					className="w-9 h-7 p-1.5 border border-gray-300"
 					onClick={() => table.lastPage()}
+					disabled={!table.getCanNextPage()}
 				>
 					<ChevronLast className="w-4 h-4" />
 				</Button>
