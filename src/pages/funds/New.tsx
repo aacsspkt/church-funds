@@ -348,6 +348,7 @@ export default function FundNewPage() {
 					</div>
 
 					<Button
+						type="button"
 						onClick={async () => await navigate("/funds")}
 						className="w-36 rounded text-center items-center p-3 mt-4 shadow border border-gray-300 text-primary"
 						variant={"secondary"}
