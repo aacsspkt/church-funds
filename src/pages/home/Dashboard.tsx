@@ -21,9 +21,10 @@ export default function DashboardPage() {
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
-			<div className="w-full p-4">
-				<h1 className="text-2xl font-bold">Home Page</h1>
+			<div className="w-full p-4 flex flex-row space-x-4 items-center">
+				<h1 className="text-2xl font-bold">Dashboard</h1>
 			</div>
+			<div className="w-full p-4 flex flex-col space-y-4"></div>
 		</div>
 	);
 }
