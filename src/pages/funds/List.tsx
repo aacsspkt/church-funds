@@ -1,4 +1,4 @@
-import { SquarePen, Trash } from "lucide-react";
+import { ArrowUpDown, SquarePen, Trash } from "lucide-react";
 import { Link } from "react-router";
 import { toast } from "sonner";
 
@@ -171,11 +171,43 @@ export default function FundListPage() {
 		// },
 		{
 			accessorKey: "id",
-			header: "Id",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className={"text-sm font-bold"}
+					>
+						Id
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 		},
 		{
-			// accessorKey: "member_id",
-			header: "Member",
+			accessorKey: "member_id",
+			accessorFn: (row) => {
+				if (members) {
+					const member = members?.find(
+						(member) => Number(member.id) === Number(row.member_id),
+					);
+					return member ? (member.name satisfies string) : "";
+				} else {
+					return "";
+				}
+			},
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className={"text-sm font-bold"}
+					>
+						Member
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 			cell: ({ row }) => {
 				const fund = row.original;
 				if (members) {
@@ -189,8 +221,29 @@ export default function FundListPage() {
 			},
 		},
 		{
-			// accessorKey: "fund_type_id",
-			header: "Fund Type",
+			accessorKey: "fund_type_id",
+			accessorFn: (row) => {
+				if (fundTypes) {
+					const fundType = fundTypes?.find(
+						(ft) => Number(ft.id) === Number(row.fund_type_id),
+					);
+					return fundType ? (fundType.name satisfies string) : "";
+				} else {
+					return "";
+				}
+			},
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className={"text-sm font-bold"}
+					>
+						Fund Type
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 			cell: ({ row }) => {
 				const fund = row.original;
 				if (fundTypes) {
@@ -205,11 +258,22 @@ export default function FundListPage() {
 		},
 		{
 			accessorKey: "amount",
-			header: "Amount",
+			header: () => <div className="font-bold text-sm">{"Amount"}</div>,
 		},
 		{
 			accessorKey: "endow_date",
-			header: "Endow Date",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className={"text-sm font-bold"}
+					>
+						Endow Date
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 			cell: ({ row }) => {
 				const fund = row.original;
 				const endow_date = fund.endow_date ? new Date(fund.endow_date) : new Date();
@@ -217,30 +281,50 @@ export default function FundListPage() {
 			},
 		},
 
-		{
-			accessorKey: "created_at",
-			header: "Created At",
-			// accessorFn: (row) => new Date(Number(row.created_at) * 1000),
-			cell: ({ row }) => (
-				<div className="">
-					{new Date(Number(row.getValue("created_at")) * 1000).toLocaleDateString()}
-				</div>
-			),
-		},
-		{
-			accessorKey: "modified_at",
-			header: "Modified At",
-			// accessorFn: (row) => new Date(Number(row.modified_at) * 1000),
-			cell: ({ row }) => (
-				<div className="">
-					{new Date(Number(row.getValue("modified_at")) * 1000).toLocaleDateString()}
-				</div>
-			),
-		},
+		// {
+		// 	accessorKey: "created_at",
+		// 	header: ({ column }) => {
+		// 		return (
+		// 			<Button
+		// 				variant="ghost"
+		// 				onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+		// 			>
+		// 				Created At
+		// 				<ArrowUpDown className="ml-2 h-4 w-4" />
+		// 			</Button>
+		// 		);
+		// 	},
+		// 	// accessorFn: (row) => new Date(Number(row.created_at) * 1000),
+		// 	cell: ({ row }) => (
+		// 		<div className="">
+		// 			{new Date(Number(row.getValue("created_at")) * 1000).toLocaleDateString()}
+		// 		</div>
+		// 	),
+		// },
+		// {
+		// 	accessorKey: "modified_at",
+		// 	header: ({ column }) => {
+		// 		return (
+		// 			<Button
+		// 				variant="ghost"
+		// 				onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+		// 			>
+		// 				Modified At
+		// 				<ArrowUpDown className="ml-2 h-4 w-4" />
+		// 			</Button>
+		// 		);
+		// 	},
+		// 	// accessorFn: (row) => new Date(Number(row.modified_at) * 1000),
+		// 	cell: ({ row }) => (
+		// 		<div className="">
+		// 			{new Date(Number(row.getValue("modified_at")) * 1000).toLocaleDateString()}
+		// 		</div>
+		// 	),
+		// },
 		{
 			id: "actions",
 			enableHiding: false,
-			header: "Actions",
+			header: () => <div className={"text-sm font-bold"}>Actions</div>,
 			cell: ({ row }) => {
 				const fund = row.original;
 

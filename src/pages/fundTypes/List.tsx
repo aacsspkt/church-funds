@@ -1,31 +1,36 @@
-import { SquarePen, Trash } from "lucide-react";
-import { Link } from "react-router";
-import { toast } from "sonner";
+import {
+  ArrowUpDown,
+  SquarePen,
+  Trash,
+} from 'lucide-react';
+import { Link } from 'react-router';
+import { toast } from 'sonner';
 
 import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
-import db from "@/lib/database";
-import { useQuery } from "@tanstack/react-query";
-import { ColumnDef } from "@tanstack/react-table";
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { Button } from '@/components/ui/button';
+import { DataTable } from '@/components/ui/data-table';
+import db from '@/lib/database';
+import { shortenString } from '@/lib/shortenString';
+import { useQuery } from '@tanstack/react-query';
+import { ColumnDef } from '@tanstack/react-table';
 
 type FundType = {
 	id: number;
@@ -136,39 +141,84 @@ export default function FundTypeListPage() {
 		// },
 		{
 			accessorKey: "id",
-			header: "Id",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className={"text-sm font-bold"}
+					>
+						Id
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
 		},
 		{
 			accessorKey: "name",
-			header: "Name",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className={"text-sm font-bold"}
+					>
+						Name
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
+			cell: ({ row }) => {
+				const name = row.getValue("name") as string;
+				return <div className="text-sm">{shortenString(name, 20, "end")}</div>;
+			},
 		},
 		{
 			accessorKey: "description",
-			header: "Description",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className={"text-sm font-bold"}
+					>
+						Description
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
+			cell: ({ row }) => {
+				const description = row.getValue("description") as string | undefined;
+				return (
+					<div className="text-sm">
+						{description ? shortenString(description, 20, "end") : ""}
+					</div>
+				);
+			},
 		},
-		{
-			accessorKey: "created_at",
-			header: "Created At",
-			cell: ({ row }) => (
-				<div className="">
-					{new Date(Number(row.getValue("created_at")) * 1000).toLocaleDateString()}
-				</div>
-			),
-		},
-		{
-			accessorKey: "modified_at",
-			header: "Modified At",
-			// accessorFn: (row) => new Date(Number(row.modified_at) * 1000),
-			cell: ({ row }) => (
-				<div className="">
-					{new Date(Number(row.getValue("modified_at")) * 1000).toLocaleDateString()}
-				</div>
-			),
-		},
+		// {
+		// 	accessorKey: "created_at",
+		// 	header: "Created At",
+		// 	cell: ({ row }) => (
+		// 		<div className="">
+		// 			{new Date(Number(row.getValue("created_at")) * 1000).toLocaleDateString()}
+		// 		</div>
+		// 	),
+		// },
+		// {
+		// 	accessorKey: "modified_at",
+		// 	header: "Modified At",
+		// 	// accessorFn: (row) => new Date(Number(row.modified_at) * 1000),
+		// 	cell: ({ row }) => (
+		// 		<div className="">
+		// 			{new Date(Number(row.getValue("modified_at")) * 1000).toLocaleDateString()}
+		// 		</div>
+		// 	),
+		// },
 		{
 			id: "actions",
 			enableHiding: false,
-			header: "Actions",
+			header: () => <div className="text-sm font-bold">Actions</div>,
 			cell: ({ row }) => {
 				const fundType = row.original;
 

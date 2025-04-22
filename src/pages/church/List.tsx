@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
+import { shortenString } from "@/lib/shortenString";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -146,7 +147,22 @@ export default function ChurchListPage() {
 		// },
 		{
 			accessorKey: "id",
-			header: "Id",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className="text-sm font-bold"
+					>
+						Id
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
+			cell: ({ row }) => {
+				const id = row.getValue("id") as number;
+				return <div className="text-sm">{id}</div>;
+			},
 		},
 		{
 			accessorKey: "name",
@@ -155,11 +171,16 @@ export default function ChurchListPage() {
 					<Button
 						variant="ghost"
 						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className="text-sm font-bold"
 					>
 						Name
 						<ArrowUpDown className="ml-2 h-4 w-4" />
 					</Button>
 				);
+			},
+			cell: ({ row }) => {
+				const name = row.getValue("name") as string;
+				return <div className="text-sm">{shortenString(name, 20, "end")}</div>;
 			},
 		},
 		{
@@ -169,11 +190,16 @@ export default function ChurchListPage() {
 					<Button
 						variant="ghost"
 						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className="text-sm font-bold"
 					>
 						Email
 						<ArrowUpDown className="ml-2 h-4 w-4" />
 					</Button>
 				);
+			},
+			cell: ({ row }) => {
+				const email = row.getValue("email") as string;
+				return <div className="text-sm">{shortenString(email, 23, "middle")}</div>;
 			},
 		},
 		{
@@ -183,11 +209,16 @@ export default function ChurchListPage() {
 					<Button
 						variant="ghost"
 						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className="text-sm font-bold"
 					>
 						Phone 1
 						<ArrowUpDown className="ml-2 h-4 w-4" />
 					</Button>
 				);
+			},
+			cell: ({ row }) => {
+				const phone = row.getValue("phone1") as number;
+				return <div className="text-sm">{phone}</div>;
 			},
 		},
 		{
@@ -197,57 +228,62 @@ export default function ChurchListPage() {
 					<Button
 						variant="ghost"
 						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						className="text-sm font-bold"
 					>
 						Phone 2
 						<ArrowUpDown className="ml-2 h-4 w-4" />
 					</Button>
 				);
 			},
-		},
-		{
-			accessorKey: "created_at",
-			header: ({ column }) => {
-				return (
-					<Button
-						variant="ghost"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-					>
-						Created At
-						<ArrowUpDown className="ml-2 h-4 w-4" />
-					</Button>
-				);
+			cell: ({ row }) => {
+				const phone = row.getValue("phone2") as number;
+				return <div className="text-sm">{phone}</div>;
 			},
-			// accessorFn: (row) => new Date(Number(row.created_at) * 1000),
-			cell: ({ row }) => (
-				<div className="">
-					{new Date(Number(row.getValue("created_at")) * 1000).toLocaleDateString()}
-				</div>
-			),
 		},
-		{
-			accessorKey: "modified_at",
-			header: ({ column }) => {
-				return (
-					<Button
-						variant="ghost"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-					>
-						Modified At
-						<ArrowUpDown className="ml-2 h-4 w-4" />
-					</Button>
-				);
-			},
-			// accessorFn: (row) => new Date(Number(row.modified_at) * 1000),
-			cell: ({ row }) => (
-				<div className="">
-					{new Date(Number(row.getValue("modified_at")) * 1000).toLocaleDateString()}
-				</div>
-			),
-		},
+		// {
+		// 	accessorKey: "created_at",
+		// 	header: ({ column }) => {
+		// 		return (
+		// 			<Button
+		// 				variant="ghost"
+		// 				onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+		// 			>
+		// 				Created At
+		// 				<ArrowUpDown className="ml-2 h-4 w-4" />
+		// 			</Button>
+		// 		);
+		// 	},
+		// 	// accessorFn: (row) => new Date(Number(row.created_at) * 1000),
+		// 	cell: ({ row }) => (
+		// 		<div className="">
+		// 			{new Date(Number(row.getValue("created_at")) * 1000).toLocaleDateString()}
+		// 		</div>
+		// 	),
+		// },
+		// {
+		// 	accessorKey: "modified_at",
+		// 	header: ({ column }) => {
+		// 		return (
+		// 			<Button
+		// 				variant="ghost"
+		// 				onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+		// 			>
+		// 				Modified At
+		// 				<ArrowUpDown className="ml-2 h-4 w-4" />
+		// 			</Button>
+		// 		);
+		// 	},
+		// 	// accessorFn: (row) => new Date(Number(row.modified_at) * 1000),
+		// 	cell: ({ row }) => (
+		// 		<div className="">
+		// 			{new Date(Number(row.getValue("modified_at")) * 1000).toLocaleDateString()}
+		// 		</div>
+		// 	),
+		// },
 		{
 			id: "actions",
 			enableHiding: false,
-			header: "Actions",
+			header: () => <div className={"text-sm font-bold"}>Actions</div>,
 			cell: ({ row }) => {
 				const church = row.original;
 
